@@ -1,0 +1,70 @@
+{
+  "assignments": [
+    {
+      "name": "Chinmoy Ray Dipto",
+      "categories": [
+        "Apparel & Accessories",
+        "Home & Garden",
+        "Personal Care & Home Care",
+        "Construction & Building Machinery",
+        "Vehicle Parts & Accessories",
+        "Material Handling",
+        "Fabrication Services"
+      ]
+    },
+    {
+      "name": "Eshita Majumder Trisha",
+      "categories": [
+        "Packaging & Printing",
+        "Sports & Entertainment",
+        "Health & Medical",
+        "Construction & Real Estate",
+        "Tools & Hardware",
+        "Testing Instrument & Equipment",
+        "Agriculture, Food & Beverage"
+      ]
+    },
+    {
+      "name": "Komol Dev",
+      "categories": [
+        "Automotive Supplies & Tools",
+        "Sportswear & Outdoor Apparel",
+        "Gifts & Crafts",
+        "Furniture",
+        "Renewable Energy",
+        "Raw Materials"
+      ]
+    },
+    {
+      "name": "Papel Roy Shanto",
+      "categories": [
+        "Safety & Security",
+        "Beauty",
+        "Pet Supplies",
+        "Lights & Lighting",
+        "Electrical Equipment & Supplies",
+        "Service"
+      ]
+    },
+    {
+      "name": "Prapti Roy",
+      "categories": [
+        "Vehicles & Transportation",
+        "Jewelry, Eyewear & Watches",
+        "School & Office Supplies",
+        "Home Appliances",
+        "Power Transmission"
+      ]
+    },
+    {
+      "name": "Sourav Chandra Shil",
+      "categories": [
+        "Consumer Electronics",
+        "Shoes & Accessories",
+        "Industrial Machinery",
+        "Commercial Equipment & Machinery",
+        "Electronic Components"
+      ]
+    }
+  ]
+}

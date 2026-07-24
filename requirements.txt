@@ -1,0 +1,5 @@
+beautifulsoup4>=4.12
+pillow>=10.0
+# Optional: enables OCR of screenshots. Also needs the system binary
+# `tesseract-ocr` (Debian/Ubuntu: sudo apt install tesseract-ocr).
+pytesseract>=0.3.10
