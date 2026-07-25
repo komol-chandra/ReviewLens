@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Product Review Data Dashboard</title>
+<title id="pageTitle">Product Details</title>
 <style>
   :root {
     color-scheme: light;
@@ -74,9 +74,17 @@
     margin-bottom: 20px;
     flex-wrap: wrap;
   }
-  h1 { font-size: 22px; margin: 0; }
-  .subtitle { color: var(--text-secondary); font-size: 13px; margin-top: 4px; }
-  .theme-toggle {
+  .header-left { display: flex; flex-direction: column; gap: 6px; max-width: 640px; }
+  .back-link {
+    font-size: 12px;
+    color: var(--text-secondary);
+    text-decoration: none;
+  }
+  .back-link:hover { color: var(--series-1); }
+  h1 { font-size: 20px; margin: 0; line-height: 1.3; }
+  .subtitle { color: var(--text-secondary); font-size: 13px; }
+  .header-right { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  .theme-toggle, .picker {
     background: var(--surface-1);
     border: 1px solid var(--border);
     color: var(--text-primary);
@@ -85,194 +93,215 @@
     font-size: 13px;
     cursor: pointer;
   }
+  .picker { max-width: 260px; }
 
   #status { color: var(--text-secondary); font-size: 14px; padding: 40px 0; text-align: center; }
 
-  /* ---- stat tiles ---- */
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 12px;
-    margin-bottom: 28px;
-  }
-  .stat-tile {
-    background: var(--surface-1);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 14px 16px;
-  }
-  .stat-label { font-size: 12px; color: var(--text-secondary); }
-  .stat-value { font-size: 26px; font-weight: 600; margin-top: 4px; }
-  .stat-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
-
-  /* ---- section ---- */
-  section { margin-bottom: 28px; }
+  section { margin-bottom: 22px; }
   h2 { font-size: 15px; margin: 0 0 12px; color: var(--text-primary); }
 
-  .charts-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-  }
-  @media (max-width: 760px) {
-    .charts-row { grid-template-columns: 1fr; }
-  }
-  .chart-card {
-    background: var(--surface-1);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px;
-  }
-  .chart-title { font-size: 13px; color: var(--text-secondary); margin-bottom: 10px; }
-
-  .bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; position: relative; }
-  .bar-label {
-    width: 128px;
-    flex-shrink: 0;
-    font-size: 12px;
-    color: var(--text-secondary);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .bar-track {
-    flex: 1;
-    height: 20px;
-    background: var(--gridline);
-    border-radius: 4px;
-    position: relative;
-  }
-  .bar-fill {
-    height: 20px;
-    max-height: 20px;
-    background: var(--series-1);
-    border-radius: 4px;
-    min-width: 4px;
-  }
-  .bar-value {
-    font-size: 12px;
-    color: var(--text-primary);
-    margin-left: 8px;
-    white-space: nowrap;
-    font-variant-numeric: tabular-nums;
-  }
-
-  /* chips */
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
-  .chip {
-    background: var(--surface-1);
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    padding: 6px 12px;
-    font-size: 12px;
-    color: var(--text-secondary);
-  }
-  .chip b { color: var(--text-primary); font-variant-numeric: tabular-nums; }
-
-  /* ---- controls ---- */
-  .controls {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    margin-bottom: 12px;
-    flex-wrap: wrap;
-  }
-  #search {
-    flex: 1;
-    min-width: 180px;
-    padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--surface-1);
-    color: var(--text-primary);
-    font-size: 13px;
-  }
-  .filter-label {
-    font-size: 13px;
-    color: var(--text-secondary);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    user-select: none;
-    cursor: pointer;
-  }
-  .result-count { font-size: 12px; color: var(--muted); }
-
-  /* ---- product grid ---- */
-  .product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 16px;
-  }
-  .product-card {
+  .panel {
     background: var(--surface-1);
     border: 1px solid var(--border);
     border-radius: 12px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition: border-color 0.15s;
+    padding: 18px 20px;
   }
-  .product-card:hover { border-color: var(--series-1); }
-  .card-img-wrap { aspect-ratio: 1; background: var(--gridline); overflow: hidden; }
-  .card-img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .card-body { padding: 12px 14px 14px; display: flex; flex-direction: column; gap: 6px; flex: 1; }
-  .card-badges { display: flex; gap: 6px; flex-wrap: wrap; }
-  .card-title {
-    font-weight: 500;
-    font-size: 13px;
-    line-height: 1.35;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+
+  /* ---- hero ---- */
+  .hero { display: grid; grid-template-columns: 380px 1fr; gap: 24px; }
+  @media (max-width: 760px) { .hero { grid-template-columns: 1fr; } }
+
+  .breadcrumb { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+  .breadcrumb a { color: var(--muted); text-decoration: none; }
+
+  .gallery-main {
+    aspect-ratio: 1;
+    background: var(--gridline);
+    border: 1px solid var(--border);
+    border-radius: 12px;
     overflow: hidden;
-    min-height: 2.7em;
   }
-  .card-meta { font-size: 11px; color: var(--muted); }
-  .card-stats {
-    margin-top: auto;
-    padding-top: 8px;
-    border-top: 1px solid var(--gridline);
+  .gallery-main img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .gallery-thumbs { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+  .gallery-thumbs button {
+    width: 52px; height: 52px;
+    padding: 0;
+    border-radius: 8px;
+    border: 2px solid var(--border);
+    background: var(--gridline);
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .gallery-thumbs button.active { border-color: var(--series-1); }
+  .gallery-thumbs img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .seller-mini { margin-top: 12px; padding: 14px 16px; }
+  .seller-mini-name { font-size: 13px; font-weight: 600; color: var(--text-primary); text-decoration: none; }
+  .seller-mini-name:hover { color: var(--series-1); }
+  .seller-mini .badges { margin-top: 6px; }
+  .seller-mini-row {
     display: flex;
-    align-items: baseline;
     justify-content: space-between;
     font-size: 12px;
+    color: var(--text-secondary);
+    padding: 6px 0;
+    border-top: 1px solid var(--gridline);
   }
-  .card-price { font-weight: 600; font-variant-numeric: tabular-nums; }
-  .card-rating { color: var(--text-secondary); font-variant-numeric: tabular-nums; }
-  .card-link {
-    display: block;
-    text-align: center;
-    padding: 8px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--series-1);
-    background: var(--series-1-wash);
-    text-decoration: none;
-    border-top: 1px solid var(--border);
-  }
-  .card-link:hover { text-decoration: underline; }
+  .seller-mini-row:first-of-type { border-top: none; margin-top: 8px; }
+  .seller-mini-row b { color: var(--text-primary); font-weight: 500; }
+
+  .hero-info { display: flex; flex-direction: column; gap: 12px; }
+  .product-title { font-size: 19px; font-weight: 600; line-height: 1.35; margin: 0; }
+  .product-id { font-size: 12px; color: var(--muted); }
+
+  .badges { display: flex; gap: 6px; flex-wrap: wrap; }
   .badge {
     display: inline-block;
-    padding: 3px 8px;
+    padding: 3px 9px;
     border-radius: 999px;
     font-size: 11px;
     font-weight: 500;
   }
   .badge-gold { background: var(--good-bg); color: var(--good); }
   .badge-standard { background: var(--gridline); color: var(--text-secondary); }
+  .badge-trade { background: var(--series-1-wash); color: var(--series-1); }
+  .badge-verified { background: var(--good-bg); color: var(--good); }
+  .badge-repeat { background: var(--gridline); color: var(--text-secondary); }
+
+  .price-block { font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .price-sub { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .price-ladder-panel { padding: 12px 14px; }
+  .price-ladder-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+  }
+  .stat-tile {
+    background: var(--page);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+  }
+  .stat-label { font-size: 11px; color: var(--text-secondary); }
+  .stat-value { font-size: 20px; font-weight: 600; margin-top: 4px; }
+  .stat-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* ---- key/value grid ---- */
+  .kv-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px 24px;
+  }
+  .kv-item { min-width: 0; }
+  .kv-label { font-size: 11px; color: var(--muted); }
+  .kv-value { font-size: 13px; margin-top: 2px; word-break: break-word; }
+  .kv-value.key-attr { font-weight: 600; }
+
+  /* ---- simple tables (pricing ladder / variants) ---- */
+  .simple-table { border-collapse: collapse; width: 100%; font-size: 13px; }
+  .simple-table th {
+    text-align: left;
+    padding: 8px 10px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 11px;
+    border-bottom: 1px solid var(--gridline);
+    white-space: nowrap;
+  }
+  .simple-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--gridline);
+    vertical-align: middle;
+  }
+  .simple-table tr:last-child td { border-bottom: none; }
   .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
 
-  #sortBy {
-    padding: 8px 12px;
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    background: var(--page);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-size: 12px;
+    color: var(--text-secondary);
+  }
+  .chip b { color: var(--text-primary); }
+
+  /* ---- seller panel ---- */
+  .seller-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 24px; }
+  @media (max-width: 760px) { .seller-grid { grid-template-columns: 1fr; } }
+  .seller-name { font-size: 16px; font-weight: 600; margin: 0 0 4px; }
+  .seller-links { display: flex; gap: 12px; margin-top: 8px; }
+  .seller-links a { font-size: 12px; color: var(--series-1); text-decoration: none; }
+  .seller-links a:hover { text-decoration: underline; }
+  .contact-row { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+  .contact-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    object-fit: cover; background: var(--gridline); flex-shrink: 0;
+  }
+
+  .bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .bar-label { width: 50px; flex-shrink: 0; font-size: 12px; color: var(--text-secondary); }
+  .bar-track { flex: 1; height: 16px; background: var(--gridline); border-radius: 4px; }
+  .bar-fill { height: 16px; max-height: 16px; background: var(--series-1); border-radius: 4px; min-width: 3px; }
+  .bar-value { font-size: 12px; color: var(--text-primary); margin-left: 8px; white-space: nowrap; font-variant-numeric: tabular-nums; width: 34px; }
+
+  /* ---- tabs (main section nav + review sub-nav) ---- */
+  .tabs { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  #mainTabs { padding-bottom: 14px; border-bottom: 1px solid var(--gridline); margin-bottom: 18px; }
+  .tab-btn {
+    padding: 8px 14px;
     border-radius: 8px;
     border: 1px solid var(--border);
     background: var(--surface-1);
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  #mainTabs .tab-btn { font-size: 13px; font-weight: 500; padding: 9px 16px; }
+  .tab-btn.active { background: var(--series-1); color: #fff; border-color: var(--series-1); }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .review-summary { display: flex; gap: 28px; flex-wrap: wrap; margin-bottom: 18px; }
+  .review-score { text-align: center; }
+  .review-score .big { font-size: 34px; font-weight: 700; line-height: 1; }
+  .review-score .stars { color: var(--warn); font-size: 14px; margin-top: 4px; }
+  .review-score .count { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .review-breakdown { flex: 1; min-width: 220px; }
+
+  .controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  #reviewSearch, #reviewRating {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--page);
     color: var(--text-primary);
     font-size: 13px;
   }
+  #reviewSearch { flex: 1; min-width: 180px; }
+  .result-count { font-size: 12px; color: var(--muted); }
 
-  /* ---- pagination ---- */
+  .review-card { border-bottom: 1px solid var(--gridline); padding: 14px 0; }
+  .review-card:last-child { border-bottom: none; }
+  .review-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; align-items: baseline; }
+  .reviewer-name { font-weight: 600; font-size: 13px; }
+  .reviewer-country { color: var(--muted); font-size: 12px; margin-left: 6px; }
+  .review-date { color: var(--muted); font-size: 12px; white-space: nowrap; }
+  .review-stars { color: var(--warn); font-size: 13px; margin: 4px 0; }
+  .review-text { font-size: 13px; line-height: 1.5; color: var(--text-primary); margin: 6px 0; }
+  .review-meta { font-size: 11px; color: var(--muted); display: flex; gap: 14px; flex-wrap: wrap; }
+
   .pagination {
     display: flex;
     align-items: center;
@@ -282,7 +311,7 @@
     flex-wrap: wrap;
   }
   .page-btn {
-    background: var(--surface-1);
+    background: var(--page);
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 6px 11px;
@@ -308,56 +337,103 @@
 <body>
 
 <header>
-  <div>
-    <h1>Product Review Data Dashboard</h1>
-    <div class="subtitle" id="subtitle">Loading database/product_data.json…</div>
+  <div class="header-left">
+    <a class="back-link" href="dashboard.html">← Back to dashboard</a>
+    <h1 id="pdTitle">Loading…</h1>
+    <div class="subtitle" id="subtitle"></div>
   </div>
-  <button class="theme-toggle" id="themeToggle" type="button">Toggle theme</button>
+  <div class="header-right">
+    <select class="picker" id="productPicker"></select>
+    <button class="theme-toggle" id="themeToggle" type="button">Toggle theme</button>
+  </div>
 </header>
 
 <div id="status">Loading data…</div>
 
 <div id="app" style="display:none;">
 
-  <section class="stats" id="stats"></section>
-
-  <section>
-    <div class="charts-row">
-      <div class="chart-card">
-        <div class="chart-title">Total reviews per product (customer + store)</div>
-        <div id="chartReviews"></div>
+  <section class="hero">
+    <div>
+      <div class="gallery-main"><img id="galleryMain" src="" alt=""></div>
+      <div class="gallery-thumbs" id="galleryThumbs"></div>
+      <div class="panel seller-mini" id="sellerMini"></div>
+    </div>
+    <div class="hero-info">
+      <div class="breadcrumb" id="breadcrumb"></div>
+      <p class="product-title" id="productTitle"></p>
+      <div class="product-id" id="productIdLine"></div>
+      <div class="badges" id="heroBadges"></div>
+      <div>
+        <div class="price-block" id="priceBlock"></div>
+        <div class="price-sub" id="priceSub"></div>
       </div>
-      <div class="chart-card">
-        <div class="chart-title">Average rating per product (out of 5)</div>
-        <div id="chartRating"></div>
+      <div class="panel price-ladder-panel">
+        <div class="price-ladder-label">Price breaks</div>
+        <table class="simple-table" id="priceLadderTable">
+          <thead><tr><th>Quantity</th><th>Price</th><th class="num">Price (USD)</th></tr></thead>
+          <tbody id="priceLadderBody"></tbody>
+        </table>
       </div>
+      <div class="stats" id="heroStats"></div>
     </div>
   </section>
 
-  <section>
-    <h2>Categories &amp; seller countries</h2>
-    <div class="chips" id="chips"></div>
-  </section>
+  <section class="panel">
+    <div class="tabs" id="mainTabs"></div>
 
-  <section>
-    <h2>Products</h2>
-    <div class="controls">
-      <input id="search" type="text" placeholder="Search title, seller, category…">
-      <label class="filter-label">
-        <input type="checkbox" id="goldOnly"> Gold suppliers only
-      </label>
-      <select id="sortBy">
-        <option value="title_asc">Title A–Z</option>
-        <option value="title_desc">Title Z–A</option>
-        <option value="rating_desc">Rating high–low</option>
-        <option value="reviews_desc">Most reviews</option>
-        <option value="price_asc">Price low–high</option>
-        <option value="price_desc">Price high–low</option>
-      </select>
-      <span class="result-count" id="resultCount"></span>
+    <div class="tab-panel" id="panel-reviews" data-panel="reviews">
+      <div class="tabs" id="reviewTabs"></div>
+
+      <div class="review-summary" id="reviewSummary"></div>
+
+      <div class="controls">
+        <input id="reviewSearch" type="text" placeholder="Search reviewer or review text…">
+        <select id="reviewRating">
+          <option value="">All ratings</option>
+          <option value="5">★★★★★ only</option>
+          <option value="4">★★★★ only</option>
+          <option value="3">★★★ only</option>
+          <option value="2">★★ only</option>
+          <option value="1">★ only</option>
+        </select>
+        <span class="result-count" id="reviewResultCount"></span>
+      </div>
+
+      <div id="reviewList"></div>
+      <div class="pagination" id="reviewPagination"></div>
     </div>
-    <div class="product-grid" id="productGrid"></div>
-    <div class="pagination" id="pagination"></div>
+
+    <div class="tab-panel" id="panel-attributes" data-panel="attributes">
+      <div class="kv-grid" id="attributesGrid"></div>
+    </div>
+
+    <div class="tab-panel" id="panel-variants" data-panel="variants">
+      <div class="chips" id="variantOptionChips" style="margin-bottom:14px;"></div>
+      <table class="simple-table" id="variantsTable">
+        <thead><tr><th>SKU</th><th>Options</th><th class="num">Available qty</th><th>Dispatch from</th></tr></thead>
+        <tbody id="variantsBody"></tbody>
+      </table>
+    </div>
+
+    <div class="tab-panel" id="panel-logistics" data-panel="logistics">
+      <div class="kv-grid" id="logisticsGrid"></div>
+    </div>
+
+    <div class="tab-panel" id="panel-supplier" data-panel="supplier">
+      <div class="seller-grid">
+        <div>
+          <p class="seller-name" id="sellerName"></p>
+          <div class="badges" id="sellerBadges"></div>
+          <div class="kv-grid" id="sellerInfoGrid" style="margin-top:12px;"></div>
+          <div class="contact-row" id="sellerContact"></div>
+          <div class="seller-links" id="sellerLinks"></div>
+        </div>
+        <div>
+          <div class="kv-grid" id="tradeAssuranceGrid"></div>
+          <div id="sellerRatingBars" style="margin-top:14px;"></div>
+        </div>
+      </div>
+    </div>
   </section>
 
 </div>
@@ -17460,12 +17536,13 @@
       "scraped_at": "2026-07-25T04:12:57+06:00"
     }
   }
-]
-</script>
+]</script>
 
 <script>
 (function () {
   "use strict";
+
+  var REVIEWS_PER_PAGE = 10;
 
   // ---------- theme toggle ----------
   var themeBtn = document.getElementById("themeToggle");
@@ -17482,201 +17559,378 @@
   });
 
   // ---------- helpers ----------
-  function fmtInt(n) {
-    return n.toLocaleString("en-US");
-  }
-  function fmtUsd(n) {
-    if (n == null) return "—";
-    return "$" + n.toLocaleString("en-US", { maximumFractionDigits: 0 });
-  }
   function esc(s) {
     var d = document.createElement("div");
     d.textContent = s == null ? "" : s;
     return d.innerHTML;
   }
-  function leafCategory(product) {
-    var crumbs = product.category && product.category.breadcrumb;
-    if (!crumbs || !crumbs.length) return "Uncategorized";
-    return crumbs[crumbs.length - 1].name;
+  function fmtInt(n) {
+    return n == null ? "—" : n.toLocaleString("en-US");
+  }
+  function fmtUsd(n) {
+    if (n == null) return "—";
+    return "$" + n.toLocaleString("en-US", { maximumFractionDigits: 2 });
+  }
+  function yn(v) {
+    if (v == null) return "—";
+    return v ? "Yes" : "No";
+  }
+  function starsHtml(rating, opts) {
+    opts = opts || {};
+    if (rating == null) return '<span style="color:var(--muted)">No rating</span>';
+    var rounded = Math.round(rating);
+    var s = "★".repeat(Math.max(0, Math.min(5, rounded))) + "☆".repeat(5 - Math.max(0, Math.min(5, rounded)));
+    return s + (opts.number === false ? "" : ' <span style="color:var(--text-secondary);">' + rating.toFixed(1) + "</span>");
+  }
+  function kv(items) {
+    return items
+      .filter(function (i) { return i.value != null && i.value !== ""; })
+      .map(function (i) {
+        return '<div class="kv-item"><div class="kv-label">' + esc(i.label) + '</div>' +
+          '<div class="kv-value' + (i.keyAttr ? " key-attr" : "") + '">' + (i.html ? i.value : esc(i.value)) + '</div></div>';
+      }).join("");
   }
 
-  // ---------- build row models ----------
-  function buildRows(data) {
-    return data.map(function (d) {
-      var p = d.product, s = d.seller, cr = d.customer_reviews, sr = d.store_reviews;
+  // ---------- state ----------
+  var DATA = [];
+  var currentEntry = null;
+  var galleryIndex = 0;
+  var reviewState = { tab: "customer", page: 1 };
+  var mainTabState = "reviews";
+  var MAIN_TABS = [
+    { key: "reviews", label: "Reviews" },
+    { key: "attributes", label: "Attributes" },
+    { key: "variants", label: "Variants" },
+    { key: "logistics", label: "Logistics" },
+    { key: "supplier", label: "Supplier" }
+  ];
 
-      var storeCount = sr.total_review_count || 0;
-      var storeAvg = storeCount > 0 && sr.average_star != null ? parseFloat(sr.average_star) : null;
-      var custCount = cr.total_reviews || 0;
-      var custAvg = custCount > 0 && cr.average_rating != null ? parseFloat(cr.average_rating) : null;
+  function idOf(entry) { return entry.product.product_id; }
 
-      var weightedSum = (storeAvg != null ? storeAvg * storeCount : 0) +
-                         (custAvg != null ? custAvg * custCount : 0);
-      var weightedCount = (storeAvg != null ? storeCount : 0) + (custAvg != null ? custCount : 0);
-      var rating = weightedCount > 0 ? weightedSum / weightedCount : null;
+  function findById(id) {
+    return DATA.filter(function (d) { return String(idOf(d)) === String(id); })[0];
+  }
 
-      var totalReviews = storeCount + custCount;
+  function updateUrl(id) {
+    var url = location.pathname + "?id=" + id;
+    history.pushState({ id: id }, "", url);
+  }
 
-      var ladder = p.pricing.price_ladder || [];
-      var prices = ladder.map(function (l) { return l.price_usd; }).filter(function (v) { return v != null; });
-      var priceUsdMin = prices.length ? Math.min.apply(null, prices) : null;
-      var priceUsdMax = prices.length ? Math.max.apply(null, prices) : null;
+  // ---------- gallery ----------
+  function renderGallery(p) {
+    var images = p.images || [];
+    galleryIndex = 0;
+    var main = document.getElementById("galleryMain");
+    var thumbs = document.getElementById("galleryThumbs");
 
-      var thumb = p.images && p.images[0] ? p.images[0].thumb : null;
+    function show(i) {
+      galleryIndex = i;
+      var img = images[i] || {};
+      main.src = img.large || img.medium || img.small || img.thumb || "";
+      thumbs.querySelectorAll("button").forEach(function (b, bi) {
+        b.classList.toggle("active", bi === i);
+      });
+    }
 
-      return {
-        productId: p.product_id,
-        title: p.title,
-        category: leafCategory(p),
-        seller: s.company_name,
-        country: s.register_country,
-        gold: !!s.membership.is_gold_supplier,
-        priceUsdMin: priceUsdMin,
-        priceUsdMax: priceUsdMax,
-        formattedPrice: p.pricing.formatted_ladder_price,
-        moq: p.pricing.moq,
-        rating: rating,
-        reviews: totalReviews,
-        thumb: thumb
-      };
+    thumbs.innerHTML = images.map(function (img, i) {
+      return '<button type="button" data-i="' + i + '"><img src="' + esc(img.thumb || img.small || "") + '" alt="" loading="lazy"></button>';
+    }).join("");
+    thumbs.querySelectorAll("button").forEach(function (b) {
+      b.addEventListener("click", function () { show(parseInt(b.dataset.i, 10)); });
     });
+
+    if (images.length) show(0);
+    else { main.src = ""; }
   }
 
-  // ---------- stat tiles ----------
-  function renderStats(rows, data) {
-    var statsEl = document.getElementById("stats");
-    var sellers = new Set(rows.map(function (r) { return r.seller; }));
-    var countries = new Set(rows.map(function (r) { return r.country; }));
-    var categories = new Set(rows.map(function (r) { return r.category; }));
-    var goldCount = rows.filter(function (r) { return r.gold; }).length;
-    var totalReviews = rows.reduce(function (a, r) { return a + r.reviews; }, 0);
-    var ratedRows = rows.filter(function (r) { return r.rating != null; });
-    var avgRating = ratedRows.length
-      ? ratedRows.reduce(function (a, r) { return a + r.rating; }, 0) / ratedRows.length
-      : null;
-    var allMins = rows.map(function (r) { return r.priceUsdMin; }).filter(function (v) { return v != null; });
-    var allMaxs = rows.map(function (r) { return r.priceUsdMax; }).filter(function (v) { return v != null; });
-    var priceMin = allMins.length ? Math.min.apply(null, allMins) : null;
-    var priceMax = allMaxs.length ? Math.max.apply(null, allMaxs) : null;
+  // ---------- hero ----------
+  function weightedRating(entry) {
+    var cr = entry.customer_reviews, sr = entry.store_reviews;
+    var storeCount = sr.total_review_count || 0;
+    var storeAvg = storeCount > 0 && sr.average_star != null ? parseFloat(sr.average_star) : null;
+    var custCount = cr.total_reviews || 0;
+    var custAvg = custCount > 0 && cr.average_rating != null ? parseFloat(cr.average_rating) : null;
+    var weightedSum = (storeAvg != null ? storeAvg * storeCount : 0) + (custAvg != null ? custAvg * custCount : 0);
+    var weightedCount = (storeAvg != null ? storeCount : 0) + (custAvg != null ? custCount : 0);
+    return weightedCount > 0 ? weightedSum / weightedCount : null;
+  }
+
+  function renderHero(entry) {
+    var p = entry.product, s = entry.seller;
+
+    renderGallery(p);
+
+    var crumbs = (p.category && p.category.breadcrumb) || [];
+    document.getElementById("breadcrumb").textContent = crumbs.map(function (c) { return c.name; }).join("  ›  ") || "Uncategorized";
+
+    document.getElementById("productTitle").textContent = p.title;
+    document.getElementById("productIdLine").textContent =
+      "Product ID " + p.product_id + (entry.meta && entry.meta.scraped_at ? " · scraped " + entry.meta.scraped_at : "");
+
+    var badges = "";
+    if (s.membership && s.membership.is_gold_supplier) badges += '<span class="badge badge-gold">Gold supplier</span>';
+    else badges += '<span class="badge badge-standard">Standard supplier</span>';
+    if (s.trade_assurance && s.trade_assurance.enabled) badges += '<span class="badge badge-trade">Trade assurance</span>';
+    if (s.membership && s.membership.is_paid_member) badges += '<span class="badge badge-standard">Paid member</span>';
+    if (s.membership && s.membership.is_leader_supplier) badges += '<span class="badge badge-standard">Leader supplier</span>';
+    document.getElementById("heroBadges").innerHTML = badges;
+
+    document.getElementById("priceBlock").textContent = p.pricing.formatted_ladder_price || "—";
+    var subParts = [];
+    if (p.pricing.moq != null) subParts.push("MOQ " + fmtInt(p.pricing.moq) + (p.pricing.unit ? " " + p.pricing.unit : ""));
+    if (p.logistics && p.logistics.sales_volume_text) subParts.push(p.logistics.sales_volume_text);
+    document.getElementById("priceSub").textContent = subParts.join(" · ");
+
+    var totalReviews = (entry.customer_reviews.total_reviews || 0) + (entry.store_reviews.total_review_count || 0);
+    var rating = weightedRating(entry);
 
     var tiles = [
-      { label: "Products", value: fmtInt(rows.length) },
-      { label: "Sellers", value: fmtInt(sellers.size) },
-      { label: "Countries", value: fmtInt(countries.size), sub: Array.from(countries).join(", ") },
-      { label: "Categories", value: fmtInt(categories.size) },
-      { label: "Gold suppliers", value: goldCount + " / " + rows.length, sub: Math.round(100 * goldCount / rows.length) + "%" },
-      { label: "Total reviews", value: fmtInt(totalReviews), sub: "customer + store" },
-      { label: "Avg rating", value: avgRating != null ? avgRating.toFixed(1) + " / 5" : "—" },
-      { label: "Price range", value: fmtUsd(priceMin) + " – " + fmtUsd(priceMax), sub: "per unit, USD equiv." }
+      { label: "Rating", value: rating != null ? rating.toFixed(1) + " / 5" : "—" },
+      { label: "Total reviews", value: fmtInt(totalReviews) },
+      { label: "Seller country", value: s.register_country || "—" },
+      { label: "Ships from", value: (p.logistics && p.logistics.ships_from && p.logistics.ships_from.map(function (c) { return c.name; }).join(", ")) || "—" },
+      { label: "Years on platform", value: s.years_on_platform != null ? String(s.years_on_platform) : "—" },
+      { label: "Trade assurance", value: yn(s.trade_assurance && s.trade_assurance.enabled) }
     ];
+    document.getElementById("heroStats").innerHTML = tiles.map(function (t) {
+      return '<div class="stat-tile"><div class="stat-label">' + esc(t.label) + '</div><div class="stat-value">' + esc(t.value) + '</div></div>';
+    }).join("");
+  }
 
-    statsEl.innerHTML = tiles.map(function (t) {
-      return '<div class="stat-tile">' +
-        '<div class="stat-label">' + esc(t.label) + '</div>' +
-        '<div class="stat-value">' + t.value + '</div>' +
-        (t.sub ? '<div class="stat-sub">' + esc(t.sub) + '</div>' : '') +
-        '</div>';
+  // ---------- seller mini card (hero sidebar) ----------
+  function renderSellerMini(entry) {
+    var s = entry.seller;
+    var ta = s.trade_assurance || {};
+    var ratings = s.ratings || {};
+
+    var badges = "";
+    if (s.membership && s.membership.is_gold_supplier) badges += '<span class="badge badge-gold">Gold supplier</span>';
+    if (ta.enabled) badges += '<span class="badge badge-trade">Trade assurance</span>';
+    if (s.self_operated) badges += '<span class="badge badge-standard">Self-operated</span>';
+
+    var rows = [];
+    rows.push(["Rating", ratings.average_star != null ? starsHtml(parseFloat(ratings.average_star), { number: true }) : "—", true]);
+    rows.push(["Country", esc((s.register_country || "—") + (s.years_on_platform != null ? " · " + s.years_on_platform + " yrs" : ""))]);
+    if (s.contact && s.contact.response_time) rows.push(["Response time", esc(s.contact.response_time)]);
+    if (ta.on_time_delivery_rate) rows.push(["On-time delivery", esc(ta.on_time_delivery_rate)]);
+    if (ratings.total_review_order_count != null) rows.push(["Rated orders", fmtInt(ratings.total_review_order_count)]);
+
+    document.getElementById("sellerMini").innerHTML =
+      (s.home_url
+        ? '<a class="seller-mini-name" href="' + esc(s.home_url) + '" target="_blank" rel="noopener">' + esc(s.company_name) + "</a>"
+        : '<div class="seller-mini-name">' + esc(s.company_name || "—") + "</div>") +
+      '<div class="badges">' + badges + "</div>" +
+      rows.map(function (r) {
+        return '<div class="seller-mini-row"><span>' + esc(r[0]) + '</span><b>' + (r[2] ? r[1] : esc(r[1])) + "</b></div>";
+      }).join("");
+  }
+
+  // ---------- pricing ladder ----------
+  function renderPricingLadder(entry) {
+    var ladder = entry.product.pricing.price_ladder || [];
+    document.getElementById("priceLadderBody").innerHTML = ladder.map(function (l) {
+      var qty = l.max_qty != null ? l.min_qty + "–" + l.max_qty : l.min_qty + "+";
+      return "<tr><td>" + esc(qty) + "</td><td>" + esc(l.formatted_price) + "</td><td class=\"num\">" + fmtUsd(l.price_usd) + "</td></tr>";
+    }).join("") || '<tr><td colspan="3" style="color:var(--muted);">No pricing ladder data.</td></tr>';
+  }
+
+  // ---------- attributes ----------
+  function renderAttributes(entry) {
+    var attrs = entry.product.attributes || [];
+    document.getElementById("attributesGrid").innerHTML = kv(attrs.map(function (a) {
+      return { label: a.name, value: a.value, keyAttr: !!a.is_key_attribute };
+    })) || '<div style="color:var(--muted);font-size:13px;">No attribute data.</div>';
+  }
+
+  // ---------- variants ----------
+  function optionsLabel(options) {
+    return (options || []).map(function (o) { return o.attr_name + ": " + o.value_name; }).join(", ");
+  }
+
+  function renderVariants(entry) {
+    var opts = entry.product.variant_options || [];
+    var variants = entry.product.variants || [];
+
+    if (!opts.length && !variants.length) {
+      document.getElementById("variantOptionChips").innerHTML = "";
+      document.getElementById("variantsBody").innerHTML =
+        '<tr><td colspan="4" style="color:var(--muted);">No variant data.</td></tr>';
+      return;
+    }
+
+    document.getElementById("variantOptionChips").innerHTML = opts.map(function (o) {
+      var values = (o.values || []).map(function (v) { return v.name; }).join(", ");
+      return '<div class="chip">' + esc(o.attr_name) + ': <b>' + esc(values) + "</b></div>";
     }).join("");
 
-    document.getElementById("subtitle").textContent =
-      rows.length + " products · " + sellers.size + " sellers · scraped " +
-      (data[0] && data[0].meta ? data[0].meta.scraped_at : "");
+    document.getElementById("variantsBody").innerHTML = variants.map(function (v) {
+      var inv = (v.inventory && v.inventory[0]) || {};
+      return "<tr><td>" + esc(v.sku_id) + "</td><td>" + esc(optionsLabel(v.options)) + "</td>" +
+        '<td class="num">' + fmtInt(inv.quantity_available) + "</td><td>" + esc(inv.place_of_dispatch) + "</td></tr>";
+    }).join("") || '<tr><td colspan="4" style="color:var(--muted);">No variant data.</td></tr>';
   }
 
-  // ---------- bar charts (single series, per mark spec: <=24px, rounded end, tabular values) ----------
-  function shortTitle(title) {
-    return title.length > 34 ? title.slice(0, 33) + "…" : title;
+  // ---------- logistics ----------
+  function renderLogistics(entry) {
+    var l = entry.product.logistics || {};
+    var lead = (l.lead_time && l.lead_time[0]) || {};
+    document.getElementById("logisticsGrid").innerHTML = kv([
+      { label: "Ships from", value: (l.ships_from || []).map(function (c) { return c.name; }).join(", ") },
+      { label: "Ships to", value: l.ships_to_country },
+      { label: "Unit weight", value: l.unit_weight_kg != null ? l.unit_weight_kg + " kg" : null },
+      { label: "Unit size", value: l.unit_size_cm ? l.unit_size_cm + " cm" : null },
+      { label: "Lead time", value: lead.process_days != null ? lead.process_days + " days (qty " + lead.min_qty + "–" + (lead.max_qty || lead.min_qty) + ")" : null },
+      { label: "Trade price type", value: l.trade_price_type },
+      { label: "Sales volume", value: l.sales_volume_text }
+    ]) || '<div style="color:var(--muted);font-size:13px;">No logistics data.</div>';
   }
 
-  function renderBarChart(containerId, rows, valueFn, valueFmt, maxValue) {
-    var el = document.getElementById(containerId);
-    var max = maxValue != null ? maxValue : Math.max.apply(null, rows.map(valueFn).map(function (v) { return v || 0; }));
-    if (max <= 0) max = 1;
+  // ---------- seller ----------
+  function renderSeller(entry) {
+    var s = entry.seller;
+    document.getElementById("sellerName").textContent = s.company_name || "—";
 
-    el.innerHTML = rows.map(function (r) {
-      var v = valueFn(r);
-      var pct = v == null ? 0 : Math.max((v / max) * 100, v > 0 ? 3 : 0);
-      var label = shortTitle(r.title);
-      var valueText = v == null ? "—" : valueFmt(v);
-      return '<div class="bar-row" title="' + esc(r.title) + '">' +
-        '<div class="bar-label">' + esc(label) + '</div>' +
+    var badges = "";
+    (s.business_type || "").split(",").filter(Boolean).forEach(function (bt) {
+      badges += '<span class="badge badge-standard">' + esc(bt.trim()) + "</span>";
+    });
+    if (s.self_operated) badges += '<span class="badge badge-gold">Self-operated</span>';
+    document.getElementById("sellerBadges").innerHTML = badges;
+
+    document.getElementById("sellerInfoGrid").innerHTML = kv([
+      { label: "Register country", value: s.register_country },
+      { label: "Years on platform", value: s.years_on_platform },
+      { label: "Employees", value: s.employees_count },
+      { label: "Company ID", value: s.company_id }
+    ]);
+
+    var contactEl = document.getElementById("sellerContact");
+    if (s.contact && (s.contact.name || s.contact.first_name)) {
+      var c = s.contact;
+      contactEl.innerHTML =
+        (c.portrait ? '<img class="contact-avatar" src="' + esc(c.portrait) + '" alt="">' : "") +
+        '<div><div style="font-size:13px;font-weight:500;">' + esc(c.name || (c.first_name + " " + c.last_name)) + "</div>" +
+        '<div style="font-size:11px;color:var(--muted);">' + esc(c.job_title || "") + (c.response_time ? " · responds in " + esc(c.response_time) : "") + "</div></div>";
+    } else {
+      contactEl.innerHTML = "";
+    }
+
+    var links = "";
+    if (s.profile_url) links += '<a href="' + esc(s.profile_url) + '" target="_blank" rel="noopener">Company profile ↗</a>';
+    if (s.home_url) links += '<a href="' + esc(s.home_url) + '" target="_blank" rel="noopener">Storefront ↗</a>';
+    document.getElementById("sellerLinks").innerHTML = links;
+
+    var ta = s.trade_assurance || {};
+    var trade6m = ta.trade_last_6_months || {};
+    document.getElementById("tradeAssuranceGrid").innerHTML = kv([
+      { label: "Trade assurance", value: yn(ta.enabled) },
+      { label: "On-time delivery", value: ta.on_time_delivery_rate },
+      { label: "Orders (6 months)", value: trade6m.ordCnt6m },
+      { label: "Order amount (6 months)", value: trade6m.ordAmt6m != null ? fmtUsd(trade6m.ordAmt6m) : null },
+      { label: "Total order amount", value: trade6m.ordAmt }
+    ]);
+
+    var byCat = (s.ratings && s.ratings.by_category) || [];
+    document.getElementById("sellerRatingBars").innerHTML = byCat.map(function (c) {
+      var score = c.average_score != null ? parseFloat(c.average_score) : null;
+      var pct = Math.max(((score || 0) / 5) * 100, 3);
+      return '<div class="bar-row"><div class="bar-label">' + esc(c.category) + '</div>' +
         '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%"></div></div>' +
-        '<div class="bar-value">' + valueText + '</div>' +
-        '</div>';
+        '<div class="bar-value">' + (score != null ? score.toFixed(1) : "—") + "</div></div>";
     }).join("");
   }
 
-  // ---------- chips ----------
-  function renderChips(rows) {
-    var chipsEl = document.getElementById("chips");
-    var byCat = {};
-    rows.forEach(function (r) { byCat[r.category] = (byCat[r.category] || 0) + 1; });
-    var byCountry = {};
-    rows.forEach(function (r) { byCountry[r.country] = (byCountry[r.country] || 0) + 1; });
-
-    var html = "";
-    Object.keys(byCat).sort().forEach(function (k) {
-      html += '<div class="chip">' + esc(k) + ' <b>' + byCat[k] + '</b></div>';
+  // ---------- reviews ----------
+  function computeBreakdown(reviews) {
+    var counts = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+    var total = 0, sum = 0;
+    reviews.forEach(function (r) {
+      if (r.rating != null && counts.hasOwnProperty(r.rating)) {
+        counts[r.rating]++;
+        total++;
+        sum += r.rating;
+      }
     });
-    Object.keys(byCountry).sort().forEach(function (k) {
-      html += '<div class="chip">Seller country: ' + esc(k) + ' <b>' + byCountry[k] + '</b></div>';
-    });
-    chipsEl.innerHTML = html;
+    return { counts: counts, ratedTotal: total, avg: total > 0 ? sum / total : null };
   }
 
-  // ---------- product grid (paginated) ----------
-  var SORTERS = {
-    title_asc:    function (a, b) { return a.title.localeCompare(b.title); },
-    title_desc:   function (a, b) { return b.title.localeCompare(a.title); },
-    rating_desc:  function (a, b) { return (b.rating == null ? -1 : b.rating) - (a.rating == null ? -1 : a.rating); },
-    reviews_desc: function (a, b) { return b.reviews - a.reviews; },
-    price_asc:    function (a, b) { return (a.priceUsdMin == null ? Infinity : a.priceUsdMin) - (b.priceUsdMin == null ? Infinity : b.priceUsdMin); },
-    price_desc:   function (a, b) { return (b.priceUsdMax == null ? -Infinity : b.priceUsdMax) - (a.priceUsdMax == null ? -Infinity : a.priceUsdMax); }
-  };
-  var PER_PAGE = 12;
-  var gridState = { page: 1 };
-
-  function filteredSortedRows(rows) {
-    var search = document.getElementById("search").value.trim().toLowerCase();
-    var goldOnly = document.getElementById("goldOnly").checked;
-    var sortBy = document.getElementById("sortBy").value;
-
-    var filtered = rows.filter(function (r) {
-      if (goldOnly && !r.gold) return false;
-      if (!search) return true;
-      var hay = (r.title + " " + r.seller + " " + r.category + " " + r.country).toLowerCase();
-      return hay.indexOf(search) !== -1;
+  function renderReviewTabs(entry) {
+    var custN = entry.customer_reviews.total_reviews || (entry.customer_reviews.reviews || []).length;
+    var storeN = entry.store_reviews.total_review_count || (entry.store_reviews.reviews || []).length;
+    var tabsEl = document.getElementById("reviewTabs");
+    tabsEl.innerHTML =
+      '<button type="button" class="tab-btn' + (reviewState.tab === "customer" ? " active" : "") + '" data-tab="customer">Customer reviews (' + fmtInt(custN) + ")</button>" +
+      '<button type="button" class="tab-btn' + (reviewState.tab === "store" ? " active" : "") + '" data-tab="store">Store reviews (' + fmtInt(storeN) + ")</button>";
+    tabsEl.querySelectorAll(".tab-btn").forEach(function (b) {
+      b.addEventListener("click", function () {
+        reviewState.tab = b.dataset.tab;
+        reviewState.page = 1;
+        renderReviewsSection(currentEntry);
+      });
     });
-
-    filtered.sort(SORTERS[sortBy] || SORTERS.title_asc);
-    return filtered;
   }
 
-  function renderCard(r) {
-    return '<div class="product-card">' +
-      '<a class="card-img-wrap" href="product-details.html?id=' + r.productId + '">' +
-        (r.thumb ? '<img class="card-img" src="' + esc(r.thumb) + '" alt="" loading="lazy" onerror="this.style.visibility=\'hidden\'">' : '') +
-      '</a>' +
-      '<div class="card-body">' +
-        '<div class="card-badges">' +
-          (r.gold ? '<span class="badge badge-gold">Gold supplier</span>' : '<span class="badge badge-standard">Standard</span>') +
-        '</div>' +
-        '<a class="card-title" href="product-details.html?id=' + r.productId + '" style="color:inherit;text-decoration:none;">' + esc(r.title) + '</a>' +
-        '<div class="card-meta">' + esc(r.category) + ' · ' + esc(r.seller) + ' (' + esc(r.country) + ')</div>' +
-        '<div class="card-stats">' +
-          '<span class="card-price">' + esc(r.formattedPrice) + '</span>' +
-          '<span class="card-rating">' + (r.rating != null ? '★ ' + r.rating.toFixed(1) : '—') + ' · ' + fmtInt(r.reviews) + ' reviews</span>' +
-        '</div>' +
-      '</div>' +
-      '<a class="card-link" href="product-details.html?id=' + r.productId + '">View details →</a>' +
-      '</div>';
+  function activeReviewBlock(entry) {
+    return reviewState.tab === "customer" ? entry.customer_reviews : entry.store_reviews;
   }
 
-  function renderPagination(totalItems) {
-    var totalPages = Math.max(1, Math.ceil(totalItems / PER_PAGE));
-    if (gridState.page > totalPages) gridState.page = totalPages;
-    var page = gridState.page;
-    var el = document.getElementById("pagination");
+  function renderReviewSummary(entry) {
+    var block = activeReviewBlock(entry);
+    var reviews = block.reviews || [];
+    var breakdown = computeBreakdown(reviews);
+    var avg = block.average_rating != null ? parseFloat(block.average_rating) :
+      (block.average_star != null ? parseFloat(block.average_star) : breakdown.avg);
+    var total = reviewState.tab === "customer" ? (block.total_reviews || reviews.length) : (block.total_review_count || reviews.length);
+
+    var barsHtml = [5, 4, 3, 2, 1].map(function (star) {
+      var count = breakdown.counts[star];
+      var pct = breakdown.ratedTotal > 0 ? (count / breakdown.ratedTotal) * 100 : 0;
+      return '<div class="bar-row"><div class="bar-label">' + star + " ★</div>" +
+        '<div class="bar-track"><div class="bar-fill" style="width:' + Math.max(pct, count > 0 ? 3 : 0) + '%"></div></div>' +
+        '<div class="bar-value">' + fmtInt(count) + "</div></div>";
+    }).join("");
+
+    document.getElementById("reviewSummary").innerHTML =
+      '<div class="review-score"><div class="big">' + (avg != null ? avg.toFixed(1) : "—") + '</div>' +
+      '<div class="stars">' + (avg != null ? starsHtml(avg, { number: false }) : "") + '</div>' +
+      '<div class="count">' + fmtInt(total) + ' reviews</div></div>' +
+      '<div class="review-breakdown">' + barsHtml + '</div>';
+  }
+
+  function reviewMatchesFilters(r, search, ratingFilter) {
+    if (ratingFilter && String(r.rating) !== ratingFilter) return false;
+    if (!search) return true;
+    var hay = ((r.reviewer_name || "") + " " + (r.review_title || "") + " " + (r.review_text || "")).toLowerCase();
+    return hay.indexOf(search) !== -1;
+  }
+
+  function renderReviewCard(r) {
+    var badges = "";
+    if (r.verified_purchase) badges += '<span class="badge badge-verified">Verified purchase</span>';
+    if (r.repeat_buyer) badges += '<span class="badge badge-repeat">Repeat buyer</span>';
+
+    var metaParts = [];
+    if (r.variant) metaParts.push("Variant: " + esc(r.variant));
+    if (r.helpful_votes) metaParts.push(fmtInt(r.helpful_votes) + " found helpful");
+    if (r.images_count) metaParts.push(fmtInt(r.images_count) + " photo" + (r.images_count === 1 ? "" : "s"));
+    if (r.price_at_review != null) metaParts.push("Paid " + (r.currency || "") + " " + r.price_at_review);
+
+    return '<div class="review-card">' +
+      '<div class="review-head"><div><span class="reviewer-name">' + esc(r.reviewer_name || "Anonymous") + "</span>" +
+      (r.reviewer_country ? '<span class="reviewer-country">' + esc(r.reviewer_country) + "</span>" : "") + "</div>" +
+      '<span class="review-date">' + esc(r.review_date || "") + "</span></div>" +
+      '<div class="review-stars">' + starsHtml(r.rating) + (badges ? " " + badges : "") + "</div>" +
+      (r.review_title ? '<div style="font-weight:600;font-size:13px;margin-top:4px;">' + esc(r.review_title) + "</div>" : "") +
+      '<div class="review-text">' + esc(r.review_text || "No written comment.") + "</div>" +
+      (metaParts.length ? '<div class="review-meta">' + metaParts.map(function (m) { return "<span>" + m + "</span>"; }).join("") + "</div>" : "") +
+      "</div>";
+  }
+
+  function renderReviewPagination(totalItems) {
+    var totalPages = Math.max(1, Math.ceil(totalItems / REVIEWS_PER_PAGE));
+    if (reviewState.page > totalPages) reviewState.page = totalPages;
+    var page = reviewState.page;
+    var el = document.getElementById("reviewPagination");
 
     if (totalPages <= 1) { el.innerHTML = ""; return; }
 
@@ -17684,7 +17938,7 @@
       opts = opts || {};
       var cls = "page-btn" + (opts.active ? " active" : "");
       var disabled = opts.disabled ? " disabled" : "";
-      return '<button type="button" class="' + cls + '" data-page="' + target + '"' + disabled + '>' + label + '</button>';
+      return '<button type="button" class="' + cls + '" data-page="' + target + '"' + disabled + ">" + label + "</button>";
     }
 
     var html = btn("‹", page - 1, { disabled: page === 1 });
@@ -17703,63 +17957,133 @@
     el.innerHTML = html;
     el.querySelectorAll(".page-btn:not(:disabled)").forEach(function (b) {
       b.addEventListener("click", function () {
-        gridState.page = parseInt(b.dataset.page, 10);
-        renderGrid(currentRows);
-        window.scrollTo({ top: document.getElementById("productGrid").offsetTop - 16, behavior: "smooth" });
+        reviewState.page = parseInt(b.dataset.page, 10);
+        renderReviewList(currentEntry);
+        var listEl = document.getElementById("reviewList");
+        window.scrollTo({ top: listEl.offsetTop - 16, behavior: "smooth" });
       });
     });
   }
 
-  var currentRows = [];
+  function renderReviewList(entry) {
+    var block = activeReviewBlock(entry);
+    var search = document.getElementById("reviewSearch").value.trim().toLowerCase();
+    var ratingFilter = document.getElementById("reviewRating").value;
 
-  function renderGrid(rows) {
-    currentRows = rows;
-    var filtered = filteredSortedRows(rows);
+    var filtered = (block.reviews || []).filter(function (r) { return reviewMatchesFilters(r, search, ratingFilter); });
 
-    document.getElementById("resultCount").textContent =
-      filtered.length + " of " + rows.length + " products";
+    document.getElementById("reviewResultCount").textContent =
+      filtered.length + " of " + (block.reviews || []).length + " reviews shown";
 
-    var start = (gridState.page - 1) * PER_PAGE;
-    var pageItems = filtered.slice(start, start + PER_PAGE);
+    var start = (reviewState.page - 1) * REVIEWS_PER_PAGE;
+    var pageItems = filtered.slice(start, start + REVIEWS_PER_PAGE);
 
-    document.getElementById("productGrid").innerHTML =
-      pageItems.map(renderCard).join("") ||
-      '<div class="result-count" style="padding:20px 0;">No products match.</div>';
+    document.getElementById("reviewList").innerHTML =
+      pageItems.map(renderReviewCard).join("") ||
+      '<div style="color:var(--muted);font-size:13px;padding:12px 0;">No reviews match.</div>';
 
-    renderPagination(filtered.length);
+    renderReviewPagination(filtered.length);
   }
 
-  function wireGridControls(rows) {
-    function onFilterChange() { gridState.page = 1; renderGrid(rows); }
-    document.getElementById("search").addEventListener("input", onFilterChange);
-    document.getElementById("goldOnly").addEventListener("change", onFilterChange);
-    document.getElementById("sortBy").addEventListener("change", onFilterChange);
+  function renderReviewsSection(entry) {
+    renderReviewTabs(entry);
+    renderReviewSummary(entry);
+    renderReviewList(entry);
+  }
+
+  function wireReviewControls() {
+    document.getElementById("reviewSearch").addEventListener("input", function () {
+      reviewState.page = 1;
+      renderReviewList(currentEntry);
+    });
+    document.getElementById("reviewRating").addEventListener("change", function () {
+      reviewState.page = 1;
+      renderReviewList(currentEntry);
+    });
+  }
+
+  // ---------- main section tabs ----------
+  function updateActivePanel() {
+    document.querySelectorAll(".tab-panel").forEach(function (panel) {
+      panel.classList.toggle("active", panel.dataset.panel === mainTabState);
+    });
+    document.querySelectorAll("#mainTabs .tab-btn").forEach(function (b) {
+      b.classList.toggle("active", b.dataset.tab === mainTabState);
+    });
+  }
+
+  function renderMainTabs() {
+    var el = document.getElementById("mainTabs");
+    el.innerHTML = MAIN_TABS.map(function (t) {
+      return '<button type="button" class="tab-btn' + (t.key === mainTabState ? " active" : "") + '" data-tab="' + t.key + '">' + esc(t.label) + "</button>";
+    }).join("");
+    el.querySelectorAll(".tab-btn").forEach(function (b) {
+      b.addEventListener("click", function () {
+        mainTabState = b.dataset.tab;
+        updateActivePanel();
+      });
+    });
+    updateActivePanel();
+  }
+
+  // ---------- product picker ----------
+  function populatePicker() {
+    var picker = document.getElementById("productPicker");
+    picker.innerHTML = DATA.map(function (d) {
+      return '<option value="' + idOf(d) + '">' + esc(d.product.title.slice(0, 60)) + (d.product.title.length > 60 ? "…" : "") + "</option>";
+    }).join("");
+    picker.addEventListener("change", function () {
+      updateUrl(picker.value);
+      selectProduct(picker.value);
+    });
   }
 
   // ---------- main render ----------
-  function render(data) {
-    var rows = buildRows(data);
+  function selectProduct(id) {
+    var entry = findById(id) || DATA[0];
+    currentEntry = entry;
+    reviewState = {
+      tab: (entry.customer_reviews.total_reviews || 0) > 0 ? "customer" : "store",
+      page: 1
+    };
+    mainTabState = "reviews";
 
-    renderStats(rows, data);
-    renderChips(rows);
+    document.getElementById("productPicker").value = idOf(entry);
+    document.getElementById("pdTitle").textContent = entry.product.title;
+    document.title = entry.product.title + " — Product Details";
+    document.getElementById("subtitle").textContent =
+      entry.seller.company_name + " · " + (entry.meta ? entry.meta.source : "");
 
-    var byReviews = rows.slice().sort(function (a, b) { return b.reviews - a.reviews; });
-    renderBarChart("chartReviews", byReviews, function (r) { return r.reviews; }, fmtInt);
-
-    var byRating = rows.slice().sort(function (a, b) { return (b.rating || 0) - (a.rating || 0); });
-    renderBarChart("chartRating", byRating, function (r) { return r.rating; }, function (v) { return v.toFixed(1); }, 5);
-
-    wireGridControls(rows);
-    renderGrid(rows);
+    renderHero(entry);
+    renderSellerMini(entry);
+    renderPricingLadder(entry);
+    renderAttributes(entry);
+    renderVariants(entry);
+    renderLogistics(entry);
+    renderSeller(entry);
+    renderReviewsSection(entry);
+    renderMainTabs();
   }
+
+  window.addEventListener("popstate", function () {
+    var params = new URLSearchParams(location.search);
+    var id = params.get("id");
+    if (id) selectProduct(id);
+  });
 
   // ---------- load data (embedded inline, no fetch/server needed) ----------
   try {
     var raw = document.getElementById("productData").textContent;
-    var data = JSON.parse(raw);
+    DATA = JSON.parse(raw);
     document.getElementById("status").style.display = "none";
     document.getElementById("app").style.display = "block";
-    render(data);
+
+    populatePicker();
+    wireReviewControls();
+
+    var params = new URLSearchParams(location.search);
+    var initialId = params.get("id") || idOf(DATA[0]);
+    selectProduct(initialId);
   } catch (err) {
     document.getElementById("status").textContent =
       "Could not parse embedded product data (" + err.message + ").";

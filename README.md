@@ -1,5 +1,7 @@
 # ReviewLens
 
+English | [বাংলা](README.bn.md)
+
 Turn saved Alibaba product pages and their review dialogs into one structured
 JSON dataset, then browse it in a self-contained HTML dashboard.
 
