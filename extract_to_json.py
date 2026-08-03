@@ -65,7 +65,7 @@ except ImportError:
 
 HTML_EXTS = {".html", ".htm"}
 IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp"}
-REVIEW_TXT_NAMES = {"product_reviews.txt", "store_reviews.txt", "review_data.txt"}
+REVIEW_TXT_NAMES = {"product_reviews.txt", "customer_reviews.txt", "store_reviews.txt", "review_data.txt"}
 
 MONTH_DATE_RE = re.compile(
     r"(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\.?\s+(\d{1,2}),?\s+(\d{4})"
@@ -559,7 +559,7 @@ def process_product_folder(folder):
         text = path.read_text(encoding="utf-8", errors="replace")
         kind, header_total, rows = parse_review_dialog(text)
         if kind is None:
-            kind = "customer" if name == "product_reviews.txt" else "store"
+            kind = "customer" if name in ("product_reviews.txt", "customer_reviews.txt") else "store"
         if kind == "customer":
             customer_rows, customer_header = rows, header_total
         else:

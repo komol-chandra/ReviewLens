@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<!-- saved from url=(0088)https://i.alicdn.com/sc-affiliate/sem-remarketing/proxy.8144c682.html?iframe_delete=true -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta http-equiv="cache-control" content="no-cache">
+    <title>Affiliate Remarketing</title>
+<script type="text/javascript" async="" src="./js"></script><script src="./js(1)"></script><script type="text/javascript" async="" src="./f.txt"></script></head>
+<body>
+<script src="./1570523743267998" async=""></script><script async="" src="./fbevents.js.download"></script><script>
+    (function(window, document) {
+        var PixelBeacon = {},
+            SEMR = {
+                _bindEvent: function(node, event, fn) {
+                    if (node.addEventListener) {
+                        node.addEventListener(event, fn, false);
+                    } else if (node.attachEvent) {
+                        node.attachEvent('on' + event, fn);
+                    }
+                },
+                _getParentHost: function() {
+                    return document.referrer.match(/^(https|http)?:\/\/(([^\:\/]+\.)?(alibaba|alicdn|activities)\.com)(\:\d+)?/i)[0];
+                },
+                _isEmptyObject: function(o) {
+                    for (var k in o) {
+                        return false;
+                    }
+
+                    return true;
+                },
+                _log: function(content) {
+                    if (window.console && window.console.log) {
+                        window.console.log(content);
+                    }
+
+                    if (window.parent.postMessage) {
+                        window.parent.postMessage('error:' + content, SEMR._getParentHost());
+                    }
+                },
+                _send: function(event) {
+                    var host = SEMR._getParentHost();
+
+                    if (!event.data || event.origin != host) {
+                        return false;
+                    }
+
+                    var data = JSON.parse(event.data),
+                        div = document.createElement('div'),
+                        head = document.getElementsByTagName('head')[0],
+                        d, html, scripts, script, scriptLink, result;
+
+                    data = [].concat(data);
+
+                    for (var i = 0, dl = data.length; i < dl; i++) {
+                        d = data[i];
+
+                        if (d && !SEMR._isEmptyObject(d)) {
+                            result = 1;
+
+                            // TIP: 因服务器返回数据经过安全宏处理（主要是对 HTML 字符转义），为保持数据一致，这里需要将 & 、 " 、 ' 三个字符还原。
+                            html = d.config ? d.config.replace(/&amp;/g, '&').replace(/&quot;/g, '\\\"').replace(/&#39;/g, '\\\'') : '';
+
+                            div.innerHTML = html;
+                            scripts = div.getElementsByTagName('script');
+
+                            for (var j = 0, sl = scripts.length; j < sl; j++) {
+                                script = scripts[j];
+
+                                if (script.hasAttribute('src')) {
+                                    scriptLink = document.createElement('script');
+                                    scriptLink.src = script.getAttribute('src');
+                                    head.appendChild(scriptLink);
+                                } else {
+                                    try {
+                                        eval(script.innerHTML);
+                                    } catch (err) {
+                                        result = 0;
+                                        SEMR._log('SEMRSE-02-02-' + d.channelName + '-' + j);
+                                    }
+                                }
+                            }
+
+                            PixelBeacon[d.channelName] = result;
+                        }
+                    }
+
+                    var pixelBeacon = SEMR._toQueryString(PixelBeacon, '|');
+
+                    event.source.postMessage('complete:' + pixelBeacon, host);
+                },
+                _toQueryString: function(p, s) {
+                    var k, v, r = [];
+
+                    if (!p) {
+                        return '';
+                    }
+
+                    for (k in p) {
+                        v = p[k] || '';
+                        r.push(encodeURIComponent(k) + '=' + encodeURIComponent(v));
+                    }
+
+                    return r.join(s || '&');
+                },
+                sendByImage: function(u) {
+                    var t = new Date() * 1 + '' + Math.ceil(Math.random() * 100000),
+                        n = 'sem-remarketing-' + t,
+                        i = window[n] = new Image();
+
+                    i.onload = i.onerror = function() {
+                        window[n] = null;
+                        this.onload = this.onerror = null;
+                    };
+
+                    i.src = u + '&_t=' + t;
+                }
+            };
+
+        try {
+            if (window.parent.postMessage) {
+                SEMR._bindEvent(window, 'message', SEMR._send);
+                window.parent.postMessage('ready:', SEMR._getParentHost());
+            } else {
+                SEMR._log('SEMRSE-02-01');
+            }
+        } catch (err) {
+            SEMR._log('SEMRSE-02-00');
+        }
+    })(window, document);
+</script>
+
+
+</body></html>

@@ -1,0 +1,71 @@
+================= MY Context 01 =========================
+
+Task One : [TODO:: name a generic name for this ]
+
+	* find the paper on your niss.
+	* download the file and find this question from the resurce paper.
+	
+	EXAMPLE WORK 
+		https://dl.acm.org/doi/pdf/10.1145/2983323.2983729 
+		
+		Give me a 3-4 line summary of the paper
+		What does the literature review section of this paper say?
+		What is the methodology used in this paper?
+		What are the paper's limitations, and how can they be addressed?
+		Which method or algorithm is used in this paper?
+		What is your opinion on this paper?
+		
+		
+
+Task Two :: [TODO:: name des : ] team work and add 5 memeber to work
+
+	## Less Technical Members Task : 
+		* find reserce paper * find 10 related reserce paerper. * find metholdoy, limition and alls.
+		* write he documention in letex.
+		* make the read and writeing the contet and report to the leader.
+		
+	## Senior, Leader With Coding Knoledge
+
+		* Make the data collection tools and collect data with juniors
+		* Start the Deep Work with the research paper. with codeing and all machine leraning replated.
+		
+		
+		
+
+
+
+
+
+================= MY Context 02 =========================
+
+Des : what i need ; i read to make a generic forlder strucutre for ".claude" for memory ; 1. need automaition for repeted work . like read the old Paper Review Files and find this below anser.
+-------------------------
+
+EXAMPLE WORK 
+		https://dl.acm.org/doi/pdf/10.1145/2983323.2983729 
+		
+		Give me a 3-4 line summary of the paper
+		What does the literature review section of this paper say?
+		What is the methodology used in this paper?
+		What are the paper's limitations, and how can they be addressed?
+		Which method or algorithm is used in this paper?
+		What is your opinion on this paper?
+		
+		
+2. then need to assing the Junor Team mate " assign task"
+
+3. Make a 10 Day Sprint Plan to Complete a Resurce Paper.
+
+================================= Our Current session gole ============================
+
+* make proper study tool in this current tool call "ReviewLens" for complete the tredisiion reserce paper work in "CSE & AI " or a generic fileds.
+* use use this dir to automat all work like doc writing to coding , analizi, desicion makeing, problem finding all work using a proper and phase by phase way to make sure that i will help 
+"to write reserce paper" more easier.
+
+
+
+ask at list 20 qustion about it ? 
+
+
+
+		
